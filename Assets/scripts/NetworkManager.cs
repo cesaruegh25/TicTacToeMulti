@@ -105,7 +105,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         foreach (SessionInfo session in sessionList)
         {
-            if (!sessionListUIDictionary.ContainsKey(session.Name)) // tenemos la sesion en el diccionario
+            if (sessionListUIDictionary.ContainsKey(session.Name)) // tenemos la sesion en el diccionario
             {
                 UpdateEntryUI(session);
             }
@@ -134,6 +134,7 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     private void UpdateEntryUI(SessionInfo session)
     {
         sessionListUIDictionary.TryGetValue(session.Name, out GameObject newEntry);
+        Debug.Log("new entry :" + newEntry);
         SessionListEntry entryScript = newEntry.GetComponent<SessionListEntry>();
         entryScript.roomName.text = session.Name;
         entryScript.playerCount.text = session.PlayerCount.ToString() + "/" + session.MaxPlayers.ToString();
@@ -263,24 +264,4 @@ public class NetworkManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         
     }
-    /*
-public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
-{
-   if (runner.IsSharedModeMasterClient)
-   {
-       runner.Spawn(ticTtacToePrefabs, Vector3.zero, Quaternion.identity, player);
-   }
-}
-
-public static void StartGame(string sessionName)
-{
-   runnerIstance.ProvideInput = false;
-   runnerIstance.StartGame(new StartGameArgs()
-   {
-       GameMode = GameMode.Shared,
-       SessionName = sessionName,
-       SceneManager = runnerIstance.GetComponent<NetworkSceneManagerDefault>()
-   });
-}
-*/
 }
